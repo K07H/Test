@@ -89,15 +89,20 @@ class lineChartConfig {
 var lineChartNamespace = {
   // Function rendering the chart (will redraw it if already present).
   renderLineChart : function (lineChartConfig, drawTooltipsFunc, computeChartDataFunc) {
-    computeChartDataFunc(lineChartConfig);
-    // Remove previously drawed chart.
-    d3.select('#' + lineChartConfig.chartDivID).remove();
-    // Add a fresh chart element.
-    var e = $('<div></div>');
-    $('#' + lineChartConfig.chartContainerID).append(e);
-    e.attr('id', lineChartConfig.chartDivID);
-    // Draw the chart element.
-    lineChartNamespace.drawLineChart(lineChartConfig, drawTooltipsFunc);
+    var containerDiv = $('#' + lineChartConfig.chartContainerID);
+    var chartDiv = $('#' + lineChartConfig.chartDivID);
+    if (!(containerDiv === undefined || containerDiv === null) &&
+        !(chartDiv === undefined || chartDiv === null)) {
+        computeChartDataFunc(lineChartConfig);
+        // Remove previously drawed chart.
+        d3.select('#' + lineChartConfig.chartDivID).remove();
+        // Add a fresh chart element.
+        var e = $('<div></div>');
+        containerDiv.append(e);
+        e.attr('id', lineChartConfig.chartDivID);
+        // Draw the chart element.
+        lineChartNamespace.drawLineChart(lineChartConfig, drawTooltipsFunc);
+    }
   },
 
   // Function drawing the chart.
@@ -252,19 +257,28 @@ var daeodonChartNamespace = {
 
   // Function to bind input values to Daeodon food chart.
   bindInputsToDaeodonFoodChart : function (lineChartConfig) {
-    $('#dinoAmount').unbind('input');
-    $('#dinoAmount').on('input', function() {
-      lineChartNamespace.renderLineChart(lineChartConfig,
-      	daeodonChartNamespace.drawDaeodonFoodChartTooltip,
-        daeodonChartNamespace.computeDaeodonFoodChartData);
-    });
+    var containerDiv = $('#' + lineChartConfig.chartContainerID);
+    var chartDiv = $('#' + lineChartConfig.chartDivID);
+    var dinoamountBtn = $('#dinoAmount');
+    var healrateBtn = $('#healingRate');
+    if (!(containerDiv === undefined || containerDiv === null) &&
+        !(chartDiv === undefined || chartDiv === null) &&
+        !(dinoamountBtn === undefined || dinoamountBtn === null) &&
+        !(healrateBtn === undefined || healrateBtn === null)) {
+        dinoamountBtn.unbind('input');
+        dinoamountBtn.on('input', function() {
+          lineChartNamespace.renderLineChart(lineChartConfig,
+      	    daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+            daeodonChartNamespace.computeDaeodonFoodChartData);
+        });
 
-    $('#healingRate').unbind('input');
-    $('#healingRate').on('input', function() {
-      lineChartNamespace.renderLineChart(lineChartConfig,
-      	daeodonChartNamespace.drawDaeodonFoodChartTooltip,
-        daeodonChartNamespace.computeDaeodonFoodChartData);
-    });
+        healrateBtn.unbind('input');
+        healrateBtn.on('input', function() {
+          lineChartNamespace.renderLineChart(lineChartConfig,
+      	    daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+            daeodonChartNamespace.computeDaeodonFoodChartData);
+        });
+    }
   },
 
   // Function to generate Daeodon's food chart data.
@@ -305,3 +319,25 @@ var daeodonChartNamespace = {
       .html('<div class="chart-tooltip-div">' + d.x + ' seconds<br/>' + d.y + ' food consumed<br/>' + totalHealed + ' total HP healed<br/>' + healedPerDino + ' HP healed/dino</div>');
   }
 };
+
+// --------------------
+// GENERATE LINE CHARTS
+// --------------------
+
+// Configure Daeodon healing rate chart.
+var daeodonRateChartConfig = new lineChartConfig('daeodonRateChartContainer', 'daeodonRateChartElement', 700, 300,
+                                                 'Healed dino max HP', 'Healing rate (HP/sec)', { x: 0, y: 32 }, { x: -25, y: -65 });
+// Draw Daeodon healing rate chart.
+lineChartNamespace.renderLineChart(daeodonRateChartConfig,
+                                   daeodonChartNamespace.drawDaeodonRateChartTooltip,
+                                   daeodonChartNamespace.computeDaeodonRateChartData);
+
+// Configure Daeodon food chart.
+var daeodonFoodChartConfig = new lineChartConfig('daeodonFoodChartContainer', 'daeodonFoodChartElement', 700, 300,
+                                                 'Time in seconds', 'Total food consumed', { x: 0, y: 32 }, { x: -25, y: -65 });
+// Bind inputs to Daeodon food chart.
+daeodonChartNamespace.bindInputsToDaeodonFoodChart(daeodonFoodChartConfig);
+// Draw Daeodon food chart.
+lineChartNamespace.renderLineChart(daeodonFoodChartConfig,
+                                   daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+                                   daeodonChartNamespace.computeDaeodonFoodChartData);
