@@ -44,7 +44,7 @@ function lineChartConfig(lcContainerDivID, lcDivID, lcWidth, lcHeight, lcXAxisLa
     this.xAxisLabel = lcXAxisLabel;
   } else {
     //console.warn('Wrong label provided for line chart X axis (must be a string).');
-    this.xAxisLabel = 'Time in seconds'; // Default value.
+    this.xAxisLabel = 'X Axis Label'; // Default value.
   }
 
   // Set Y axis label.
@@ -52,7 +52,7 @@ function lineChartConfig(lcContainerDivID, lcDivID, lcWidth, lcHeight, lcXAxisLa
     this.yAxisLabel = lcYAxisLabel;
   } else {
     //console.warn('Wrong label provided for line chart Y axis (must be a string).');
-    this.yAxisLabel = 'Total food consumed'; // Default value.
+    this.yAxisLabel = 'Y Axis Label'; // Default value.
   }
 
   // Set indentation for X axis label.
@@ -78,6 +78,11 @@ function lineChartConfig(lcContainerDivID, lcDivID, lcWidth, lcHeight, lcXAxisLa
   this.chartDataset = []; // This will hold the chart data.
   this.maxValX = 0; // This will hold the max X value from the chart data.
   this.maxValY = 0; // This will hold the max Y value from the chart data.
+  
+  // Daeodon's food chart specifics:
+  this.dinoAmountInputID = 'lcDinoAmount'; // Holds the ID of the "dino amount" input field.
+  this.healRateInputID = 'lcHealingRate'; // Holds the ID of the "healing rate" input field.
+  this.maxTimeInputID = 'lcMaxTime'; // Holds the ID of the "max time" input field.
 }
 
 // --------------------
@@ -266,21 +271,30 @@ var daeodonChartNamespace = {
 
     var containerDiv = $('#' + lineChartConfig.chartContainerID);
     var chartDiv = $('#' + lineChartConfig.chartDivID);
-    var dinoamountBtn = $('#dinoAmount');
-    var healrateBtn = $('#healingRate');
+    var dinoamountInput = $('#' + lineChartConfig.dinoAmountInputID);
+    var healrateInput = $('#' + lineChartConfig.healRateInputID);
+    var maxtimeInput = $('#' + lineChartConfig.maxTimeInputID);
     if (!(containerDiv === undefined || containerDiv === null) &&
         !(chartDiv === undefined || chartDiv === null) &&
-        !(dinoamountBtn === undefined || dinoamountBtn === null) &&
-        !(healrateBtn === undefined || healrateBtn === null)) {
-        dinoamountBtn.unbind('input');
-        dinoamountBtn.on('input', function() {
+        !(dinoamountInput === undefined || dinoamountInput === null) &&
+        !(healrateInput === undefined || healrateInput === null) &&
+        !(maxtimeInput === undefined || maxtimeInput === null)) {
+        dinoamountInput.unbind('input');
+        dinoamountInput.on('input', function() {
           lineChartNamespace.renderLineChart(lineChartConfig,
             daeodonChartNamespace.drawDaeodonFoodChartTooltip,
             daeodonChartNamespace.computeDaeodonFoodChartData);
         });
 
-        healrateBtn.unbind('input');
-        healrateBtn.on('input', function() {
+        healrateInput.unbind('input');
+        healrateInput.on('input', function() {
+          lineChartNamespace.renderLineChart(lineChartConfig,
+            daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+            daeodonChartNamespace.computeDaeodonFoodChartData);
+        });
+
+        maxtimeInput.unbind('input');
+        maxtimeInput.on('input', function() {
           lineChartNamespace.renderLineChart(lineChartConfig,
             daeodonChartNamespace.drawDaeodonFoodChartTooltip,
             daeodonChartNamespace.computeDaeodonFoodChartData);
@@ -292,18 +306,26 @@ var daeodonChartNamespace = {
   computeDaeodonFoodChartData : function (lineChartConfig) {
     'use strict';
 
-    var dinoAmount = parseInt($('#dinoAmount').val());
-    var healingRate = parseFloat($('#healingRate').val()) * dinoAmount;
-    lineChartConfig.maxValX = 300;
-    lineChartConfig.maxValY = 0;
-    lineChartConfig.chartDataset = [];
-    for (var i = 0; i <= lineChartConfig.maxValX; i++) {
-      var baseFoodConsumption = 100 + (i * 40);
-      var healFoodConsumption = (i * healingRate);
-      var totalFoodConsumption = baseFoodConsumption + healFoodConsumption;
-      lineChartConfig.chartDataset.push({x:i,y:totalFoodConsumption});
-      if (i === lineChartConfig.maxValX) {
-        lineChartConfig.maxValY = totalFoodConsumption;
+    var dinoamountInput = $('#' + lineChartConfig.dinoAmountInputID);
+    var healrateInput = $('#' + lineChartConfig.healRateInputID);
+    var maxtimeInput = $('#' + lineChartConfig.maxTimeInputID);
+    if (!(dinoamountInput === undefined || dinoamountInput === null) &&
+        !(healrateInput === undefined || healrateInput === null) &&
+        !(maxtimeInput === undefined || maxtimeInput === null)) {
+      var dinoAmount = parseInt(dinoamountInput.val());
+      var healingRate = parseFloat(healrateInput.val()) * dinoAmount;
+      var maxTime = parseInt(maxtimeInput.val());
+      lineChartConfig.maxValX = maxTime;
+      lineChartConfig.maxValY = 0;
+      lineChartConfig.chartDataset = [];
+      for (var i = 0; i <= lineChartConfig.maxValX; i++) {
+        var baseFoodConsumption = 100 + (i * 40);
+        var healFoodConsumption = (i * healingRate);
+        var totalFoodConsumption = baseFoodConsumption + healFoodConsumption;
+        lineChartConfig.chartDataset.push({x:i,y:totalFoodConsumption});
+        if (i === lineChartConfig.maxValX) {
+          lineChartConfig.maxValY = totalFoodConsumption;
+        }
       }
     }
   },
@@ -312,22 +334,27 @@ var daeodonChartNamespace = {
   drawDaeodonFoodChartTooltip : function (lineChartConfig, d) {
     'use strict';
 
-    var nbDino = $('#dinoAmount').val();
-    var totalHealed = (d.x * $('#healingRate').val() * nbDino);
-    var healedPerDino = (totalHealed / nbDino);
+    var dinoamountInput = $('#' + lineChartConfig.dinoAmountInputID);
+    var healrateInput = $('#' + lineChartConfig.healRateInputID);
+    if (!(dinoamountInput === undefined || dinoamountInput === null) &&
+        !(healrateInput === undefined || healrateInput === null)) {
+      var nbDino = dinoamountInput.val();
+      var totalHealed = (d.x * healrateInput.val() * nbDino);
+      var healedPerDino = (totalHealed / nbDino);
 
-    d3.select('#' + lineChartConfig.chartDivID).append("div")
-      .attr('class', 'chart-annot')
-      .style("position", "absolute")
-      .style("visibility", "visible")
-      .style("background-color", "white")
-      .style("border", "solid")
-      .style("border-width", "1px")
-      .style("border-radius", "5px")
-      .style("top", event.pageY + 'px')
-      .style("left", (event.pageX > (lineChartConfig.chartWidth - 160) ? (event.pageX - 180) : (event.pageX + 10)) + 'px')
-      .style("padding", "4px")
-      .html('<div class="chart-tooltip-div">' + d.x + ' seconds<br/>' + d.y + ' food consumed<br/>' + totalHealed + ' total HP healed<br/>' + healedPerDino + ' HP healed/dino</div>');
+      d3.select('#' + lineChartConfig.chartDivID).append("div")
+        .attr('class', 'chart-annot')
+        .style("position", "absolute")
+        .style("visibility", "visible")
+        .style("background-color", "white")
+        .style("border", "solid")
+        .style("border-width", "1px")
+        .style("border-radius", "5px")
+        .style("top", event.pageY + 'px')
+        .style("left", (event.pageX > (lineChartConfig.chartWidth - 160) ? (event.pageX - 180) : (event.pageX + 10)) + 'px')
+        .style("padding", "4px")
+        .html('<div class="chart-tooltip-div">' + d.x + ' seconds<br/>' + d.y + ' food consumed<br/>' + totalHealed + ' total HP healed<br/>' + healedPerDino + ' HP healed/dino</div>');
+    }
   }
 };
 
