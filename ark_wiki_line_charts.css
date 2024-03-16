@@ -1,0 +1,46 @@
+.chart-graph {
+  /* Dark theme */
+  background-color: rgb(34, 34, 34);
+  /* Light theme */
+  /*background-color: rgb(255, 255, 255);*/
+}
+
+.chart-line {
+  /* Style the line by removing the fill and applying a stroke */
+  fill: none;
+  stroke: rgb(255, 171, 0);
+  stroke-width: 2;
+}
+
+.chart-x-axis, .chart-y-axis {
+  font-size: 0.6em;
+  /* Dark theme */
+  color: rgb(255, 255, 255);
+  /* Light theme */
+  /*color: rgb(34, 34, 34);*/
+}
+
+.chart-current-x-line, .chart-current-y-line {
+  stroke: red;
+  stroke-width: 1;
+}
+
+.chart-x-axis-label, .chart-y-axis-label {
+  font-size: 1em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  /* Dark theme */
+  fill: rgb(255, 255, 255);
+  /* Light theme */
+  /*fill: rgb(34, 34, 34);*/
+}
+
+.chart-tooltip-div {
+  font-size: 0.9em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+  /* Dark theme */
+  background-color: rgb(255, 255, 255);
+  color: rgb(34, 34, 34);
+  /* Light theme */
+  /*background-color: rgb(34, 34, 34);*/
+  /*color: rgb(255, 255, 255);*/
+}
