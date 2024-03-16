@@ -1,89 +1,83 @@
-// Enable strict mode.
-'use strict';
-
 // ----------------------------
 // LINE CHART CONFIG DEFINITION
 // ----------------------------
 
-class lineChartConfig {
-	constructor(lcContainerDivID, lcDivID, lcWidth, lcHeight,
-  	lcXAxisLabel, lcYAxisLabel, lcXAxisLabelIndent, lcYAxisLabelIndent) {
-    // Set line chart container div ID.
-    if (!(lcContainerDivID === undefined || lcContainerDivID === null) && 
-    		typeof(lcContainerDivID) === 'string' && lcContainerDivID.length > 0) {
-    	this.chartContainerID = lcContainerDivID;
-    } else {
-    	console.warn('Wrong ID provided for line chart container div (must be a non-empty string).');
-    	this.chartContainerID = 'chartContainer'; // Default value.
-    }
-    
-    // Set line chart div ID.
-    if (!(lcDivID === undefined || lcDivID === null) && 
-    		typeof(lcDivID) === 'string' && lcDivID.length > 0) {
-    	this.chartDivID = lcDivID;
-    } else {
-    	console.warn('Wrong ID provided for line chart div (must be a non-empty string).');
-    	this.chartDivID = 'chartElement'; // Default value.
-    }
-    
-    // Set line chart width.
-    if (!(lcWidth === undefined || lcWidth === null) && 
-    		!isNaN(lcWidth) && parseInt(Number(lcWidth)) == lcWidth && !isNaN(parseInt(lcWidth, 10)) && lcWidth > 0) {
-    	this.chartWidth = parseInt(lcWidth, 10);
-    } else {
-    	console.warn('Wrong width provided for line chart (must be a positive integer).');
-    	this.chartWidth = 700; // Default value.
-    }
-    
-    // Set line chart height.
-    if (!(lcHeight === undefined || lcHeight === null) && 
-    		!isNaN(lcHeight) && parseInt(Number(lcHeight)) == lcHeight && !isNaN(parseInt(lcHeight, 10)) && lcHeight > 0) {
-    	this.chartHeight = parseInt(lcHeight, 10);
-    } else {
-    	console.warn('Wrong height provided for line chart (must be a positive integer).');
-    	this.chartHeight = 300; // Default value.
-    }
-
-    // Set X axis label.
-    if (!(lcXAxisLabel === undefined || lcXAxisLabel === null) && typeof(lcXAxisLabel) === 'string') {
-    	this.xAxisLabel = lcXAxisLabel;
-    } else {
-    	console.warn('Wrong label provided for line chart X axis (must be a string).');
-    	this.xAxisLabel = 'Time in seconds'; // Default value.
-    }
-    
-    // Set Y axis label.
-    if (!(lcYAxisLabel === undefined || lcYAxisLabel === null) && typeof(lcYAxisLabel) === 'string') {
-    	this.yAxisLabel = lcYAxisLabel;
-    } else {
-    	console.warn('Wrong label provided for line chart Y axis (must be a string).');
-    	this.yAxisLabel = 'Total food consumed'; // Default value.
-    }
-    
-    // Set indentation for X axis label.
-    if (!(lcXAxisLabelIndent === undefined || lcXAxisLabelIndent === null) &&
-    		!(lcXAxisLabelIndent.x === undefined || lcXAxisLabelIndent.x === null) &&
-        !(lcXAxisLabelIndent.y === undefined || lcXAxisLabelIndent.y === null)) {
-    	this.xAxisLabelIndent = lcXAxisLabelIndent;
-    } else {
-    	console.warn('Wrong indentation provided for line chart X axis label (must be an object containing 2 integer values "x" and "y").');
-    	this.xAxisLabelIndent = { x: 0, y: 32 }; // Default value.
-    }
-    
-    // Set indentation for Y axis label.
-    if (!(lcYAxisLabelIndent === undefined || lcYAxisLabelIndent === null) &&
-    		!(lcYAxisLabelIndent.x === undefined || lcYAxisLabelIndent.x === null) &&
-        !(lcYAxisLabelIndent.y === undefined || lcYAxisLabelIndent.y === null)) {
-    	this.yAxisLabelIndent = lcYAxisLabelIndent;
-    } else {
-    	console.warn('Wrong indentation provided for line chart Y axis label (must be an object containing 2 integer values "x" and "y").');
-    	this.yAxisLabelIndent = { x: -25, y: -65 }; // Default value.
-    }
-
-    this.chartDataset = []; // This will hold the chart data.
-    this.maxValX = 0; // This will hold the max X value from the chart data.
-    this.maxValY = 0; // This will hold the max Y value from the chart data.
+function lineChartConfig(lcContainerDivID, lcDivID, lcWidth, lcHeight, lcXAxisLabel, lcYAxisLabel, lcXAxisLabelIndent, lcYAxisLabelIndent) {
+  // Set line chart container div ID.
+  if (!(lcContainerDivID === undefined || lcContainerDivID === null) && 
+      typeof(lcContainerDivID) === 'string' && lcContainerDivID.length > 0) {
+    this.chartContainerID = lcContainerDivID;
+  } else {
+    //console.warn('Wrong ID provided for line chart container div (must be a non-empty string).');
+    this.chartContainerID = 'chartContainer'; // Default value.
   }
+    
+  // Set line chart div ID.
+  if (!(lcDivID === undefined || lcDivID === null) && 
+      typeof(lcDivID) === 'string' && lcDivID.length > 0) {
+    this.chartDivID = lcDivID;
+  } else {
+    //console.warn('Wrong ID provided for line chart div (must be a non-empty string).');
+    this.chartDivID = 'chartElement'; // Default value.
+  }
+
+  // Set line chart width.
+  if (!(lcWidth === undefined || lcWidth === null) && 
+      !isNaN(lcWidth) && parseInt(Number(lcWidth)) == lcWidth && !isNaN(parseInt(lcWidth, 10)) && lcWidth > 0) {
+    this.chartWidth = parseInt(lcWidth, 10);
+  } else {
+    //console.warn('Wrong width provided for line chart (must be a positive integer).');
+    this.chartWidth = 700; // Default value.
+  }
+
+  // Set line chart height.
+  if (!(lcHeight === undefined || lcHeight === null) && 
+      !isNaN(lcHeight) && parseInt(Number(lcHeight)) == lcHeight && !isNaN(parseInt(lcHeight, 10)) && lcHeight > 0) {
+    this.chartHeight = parseInt(lcHeight, 10);
+  } else {
+    //console.warn('Wrong height provided for line chart (must be a positive integer).');
+    this.chartHeight = 300; // Default value.
+  }
+
+  // Set X axis label.
+  if (!(lcXAxisLabel === undefined || lcXAxisLabel === null) && typeof(lcXAxisLabel) === 'string') {
+    this.xAxisLabel = lcXAxisLabel;
+  } else {
+    //console.warn('Wrong label provided for line chart X axis (must be a string).');
+    this.xAxisLabel = 'Time in seconds'; // Default value.
+  }
+
+  // Set Y axis label.
+  if (!(lcYAxisLabel === undefined || lcYAxisLabel === null) && typeof(lcYAxisLabel) === 'string') {
+    this.yAxisLabel = lcYAxisLabel;
+  } else {
+    //console.warn('Wrong label provided for line chart Y axis (must be a string).');
+    this.yAxisLabel = 'Total food consumed'; // Default value.
+  }
+
+  // Set indentation for X axis label.
+  if (!(lcXAxisLabelIndent === undefined || lcXAxisLabelIndent === null) &&
+      !(lcXAxisLabelIndent.x === undefined || lcXAxisLabelIndent.x === null) &&
+      !(lcXAxisLabelIndent.y === undefined || lcXAxisLabelIndent.y === null)) {
+    this.xAxisLabelIndent = lcXAxisLabelIndent;
+  } else {
+    //console.warn('Wrong indentation provided for line chart X axis label (must be an object containing 2 integer values "x" and "y").');
+    this.xAxisLabelIndent = { x: 0, y: 32 }; // Default value.
+  }
+
+  // Set indentation for Y axis label.
+  if (!(lcYAxisLabelIndent === undefined || lcYAxisLabelIndent === null) &&
+      !(lcYAxisLabelIndent.x === undefined || lcYAxisLabelIndent.x === null) &&
+      !(lcYAxisLabelIndent.y === undefined || lcYAxisLabelIndent.y === null)) {
+    this.yAxisLabelIndent = lcYAxisLabelIndent;
+  } else {
+    //console.warn('Wrong indentation provided for line chart Y axis label (must be an object containing 2 integer values "x" and "y").');
+    this.yAxisLabelIndent = { x: -25, y: -65 }; // Default value.
+  }
+
+  this.chartDataset = []; // This will hold the chart data.
+  this.maxValX = 0; // This will hold the max X value from the chart data.
+  this.maxValY = 0; // This will hold the max Y value from the chart data.
 }
 
 // --------------------
@@ -92,6 +86,8 @@ class lineChartConfig {
 var lineChartNamespace = {
   // Function rendering the chart (will redraw it if already present).
   renderLineChart : function (lineChartConfig, drawTooltipsFunc, computeChartDataFunc) {
+    'use strict';
+
     var containerDiv = $('#' + lineChartConfig.chartContainerID);
     var chartDiv = $('#' + lineChartConfig.chartDivID);
     if (!(containerDiv === undefined || containerDiv === null) &&
@@ -110,8 +106,10 @@ var lineChartNamespace = {
 
   // Function drawing the chart.
   drawLineChart : function (lineChartConfig, drawTooltipsFunc) {
+    'use strict';
+
     // Store a pointer to the draw tooltips function.
-    var	drawTooltipsFuncPtr = drawTooltipsFunc;
+    var drawTooltipsFuncPtr = drawTooltipsFunc;
 
     // Define margins using convention practice.
     var margin = {top: 50, right: 50, bottom: 50, left: 70}, width = lineChartConfig.chartWidth - margin.left - margin.right, height = lineChartConfig.chartHeight - margin.top - margin.bottom;
@@ -129,7 +127,7 @@ var lineChartNamespace = {
     var line = d3.line()
       .x(function(d) { return xScale(d.x); }) // Set x values for line generator.
       .y(function(d) { return yScale(d.y); }) // Set y values for line generator.
-      .curve(d3.curveMonotoneX) // Apply smoothing to the line.
+      .curve(d3.curveMonotoneX); // Apply smoothing to the line.
 
     // Add the SVG to the page.
     var svg = d3.select('#' +  lineChartConfig.chartDivID)
@@ -178,13 +176,13 @@ var lineChartNamespace = {
         .text(lineChartConfig.yAxisLabel);
 
     // Function handling mouse move event.
-    function mousemove()
-    {
+    function mousemove() {
       // Find closest line point to mouse cursor.
-      let x = d3.mouse(this)[0] - margin.left;
-      let closest = lineChartConfig.chartDataset.reduce((best, value, i) => 
-        {
-          let absx = Math.abs(xScale(value.x) - x) 
+      //var x = d3.mouse(this)[0] - margin.left;
+      var svgElement = $('#' +  lineChartConfig.chartDivID)[0].children[0];
+      var x = d3.mouse(svgElement)[0] - margin.left;
+      var closest = lineChartConfig.chartDataset.reduce(function(best, value, i) {
+          var absx = Math.abs(xScale(value.x) - x);
           if(absx < best.value) {
             return {index: i, value:absx};
           }
@@ -225,18 +223,20 @@ var lineChartNamespace = {
 // -----------------------
 
 var daeodonChartNamespace = {
-	// Function to generate Daeodon's rate chart data.
+  // Function to generate Daeodon's rate chart data.
   computeDaeodonRateChartData : function (lineChartConfig) {
+    'use strict';
+
     lineChartConfig.maxValX = 101000;
     lineChartConfig.maxValY = 450;
     lineChartConfig.chartDataset = [];
-  	for (var i = 0; i <= 100000; i += 500) {
-    	var healRate = (i / 100) * 0.5;
+    for (var i = 0; i <= 100000; i += 500) {
+      var healRate = (i / 100) * 0.5;
       if (healRate < 20) {
-      	healRate = 20;
+        healRate = 20;
       }
       if (healRate > 400) {
-      	healRate = 400;
+        healRate = 400;
       }
       lineChartConfig.chartDataset.push({x:i,y:healRate});
     }
@@ -244,6 +244,8 @@ var daeodonChartNamespace = {
 
   // Function to draw Daeodon's rate chart tooltip.
   drawDaeodonRateChartTooltip : function (lineChartConfig, d) {
+    'use strict';
+
     d3.select('#' + lineChartConfig.chartDivID).append("div")
       .attr('class', 'chart-annot')
       .style("position", "absolute")
@@ -260,6 +262,8 @@ var daeodonChartNamespace = {
 
   // Function to bind input values to Daeodon food chart.
   bindInputsToDaeodonFoodChart : function (lineChartConfig) {
+    'use strict';
+
     var containerDiv = $('#' + lineChartConfig.chartContainerID);
     var chartDiv = $('#' + lineChartConfig.chartDivID);
     var dinoamountBtn = $('#dinoAmount');
@@ -271,14 +275,14 @@ var daeodonChartNamespace = {
         dinoamountBtn.unbind('input');
         dinoamountBtn.on('input', function() {
           lineChartNamespace.renderLineChart(lineChartConfig,
-      	    daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+            daeodonChartNamespace.drawDaeodonFoodChartTooltip,
             daeodonChartNamespace.computeDaeodonFoodChartData);
         });
 
         healrateBtn.unbind('input');
         healrateBtn.on('input', function() {
           lineChartNamespace.renderLineChart(lineChartConfig,
-      	    daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+            daeodonChartNamespace.drawDaeodonFoodChartTooltip,
             daeodonChartNamespace.computeDaeodonFoodChartData);
         });
     }
@@ -286,6 +290,8 @@ var daeodonChartNamespace = {
 
   // Function to generate Daeodon's food chart data.
   computeDaeodonFoodChartData : function (lineChartConfig) {
+    'use strict';
+
     var dinoAmount = parseInt($('#dinoAmount').val());
     var healingRate = parseFloat($('#healingRate').val()) * dinoAmount;
     lineChartConfig.maxValX = 300;
@@ -304,6 +310,8 @@ var daeodonChartNamespace = {
 
   // Function to draw Daeodon's food chart tooltip.
   drawDaeodonFoodChartTooltip : function (lineChartConfig, d) {
+    'use strict';
+
     var nbDino = $('#dinoAmount').val();
     var totalHealed = (d.x * $('#healingRate').val() * nbDino);
     var healedPerDino = (totalHealed / nbDino);
@@ -328,21 +336,23 @@ var daeodonChartNamespace = {
 // --------------------
 
 $( document ).ready(function() {
-    // Configure Daeodon healing rate chart.
-    var daeodonRateChartConfig = new lineChartConfig('daeodonRateChartContainer', 'daeodonRateChartElement', 700, 300,
-                                                     'Healed dino max HP', 'Healing rate (HP/sec)', { x: 0, y: 32 }, { x: -25, y: -65 });
-	// Draw Daeodon healing rate chart.
-    lineChartNamespace.renderLineChart(daeodonRateChartConfig,
-                                       daeodonChartNamespace.drawDaeodonRateChartTooltip,
-                                       daeodonChartNamespace.computeDaeodonRateChartData);
+  'use strict';
 
-    // Configure Daeodon food chart.
-    var daeodonFoodChartConfig = new lineChartConfig('daeodonFoodChartContainer', 'daeodonFoodChartElement', 700, 300,
-                                                     'Time in seconds', 'Total food consumed', { x: 0, y: 32 }, { x: -25, y: -65 });
-    // Bind inputs to Daeodon food chart.
-    daeodonChartNamespace.bindInputsToDaeodonFoodChart(daeodonFoodChartConfig);
-    // Draw Daeodon food chart.
-    lineChartNamespace.renderLineChart(daeodonFoodChartConfig,
-                                       daeodonChartNamespace.drawDaeodonFoodChartTooltip,
-                                       daeodonChartNamespace.computeDaeodonFoodChartData);
+  // Configure Daeodon healing rate chart.
+  var daeodonRateChartConfig = new lineChartConfig('daeodonRateChartContainer', 'daeodonRateChartElement', 700, 300,
+                                                   'Healed dino max HP', 'Healing rate (HP/sec)', { x: 0, y: 32 }, { x: -25, y: -65 });
+  // Draw Daeodon healing rate chart.
+  lineChartNamespace.renderLineChart(daeodonRateChartConfig,
+                                     daeodonChartNamespace.drawDaeodonRateChartTooltip,
+                                     daeodonChartNamespace.computeDaeodonRateChartData);
+
+  // Configure Daeodon food chart.
+  var daeodonFoodChartConfig = new lineChartConfig('daeodonFoodChartContainer', 'daeodonFoodChartElement', 700, 300,
+                                                   'Time in seconds', 'Total food consumed', { x: 0, y: 32 }, { x: -25, y: -65 });
+  // Bind inputs to Daeodon food chart.
+  daeodonChartNamespace.bindInputsToDaeodonFoodChart(daeodonFoodChartConfig);
+  // Draw Daeodon food chart.
+  lineChartNamespace.renderLineChart(daeodonFoodChartConfig,
+                                     daeodonChartNamespace.drawDaeodonFoodChartTooltip,
+                                     daeodonChartNamespace.computeDaeodonFoodChartData);
 });
