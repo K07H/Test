@@ -1,3 +1,6 @@
+// Enable strict mode.
+'use strict';
+
 // ----------------------------
 // LINE CHART CONFIG DEFINITION
 // ----------------------------
