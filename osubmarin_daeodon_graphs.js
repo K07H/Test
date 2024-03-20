@@ -49,7 +49,7 @@ var lineGraphNamespace = {
 
     this.xModulo = xAxisModulo;
     this.yModulo = yAxisModulo;
-    
+
     this.xTitle = xAxisTitle;
     this.yTitle = yAxisTitle;
 
@@ -79,15 +79,10 @@ var lineGraphNamespace = {
   },
 
   doHideTooltip : function (e, config) {
-    var mouseX = parseInt(e.clientX - config.offsetX);
-    var mouseY = parseInt(e.clientY - config.offsetY);
-
-    var minX = config.graphJquery.offset().left - config.offsetX;
-    var maxX = minX + config.graphJquery.width() - config.offsetX;
-    var minY = config.graphJquery.offset().top - config.offsetY;
-    var maxY = minY + config.graphJquery.height() - config.offsetY;
-
-    if (mouseX <= minX || mouseX >= maxX || mouseY <= minY || mouseY >= maxY) {
+    var mouseX = parseInt(e.clientX);
+    var mouseY = parseInt(e.clientY);
+    var bounds = config.graph.getBoundingClientRect();
+    if (mouseX <= bounds.x || mouseX >= bounds.x + bounds.width || mouseY <= bounds.y || mouseY >= bounds.y + bounds.height) {
       config.tipCanvas.style.display = 'none';
       config.tipCanvas.style.left = '-4000px';
     }
@@ -117,7 +112,7 @@ var lineGraphNamespace = {
     config.graphJquery.mouseout(function (e) {
       lineGraphNamespace.doHideTooltip(e, config);
     });
-    
+
     // Hide tooltip when mouse leaves tooltip.
     config.tipJquery.mouseout(function (e) {
       lineGraphNamespace.doHideTooltip(e, config);
@@ -144,7 +139,7 @@ var lineGraphNamespace = {
         config.ctx.fillText(j, lineGraphNamespace.getXPixel(config, j), config.graph.height - config.graphDimensions.yPadding + 15);
       }
     }
-    
+
     // Draw the X title.
     config.ctx.font = config.graphStyle.axisTitleFont;
     config.ctx.fillStyle = config.graphStyle.axisTitleColor;
@@ -418,7 +413,7 @@ var daeodonGraphsNamespace = {
     tipCanvasObj.height = 65;
     healOverTimeGraphDiv.append(tipCanvasObj);
   },
-  
+
   // Function to generate Daeodon's heal-over-time chart data.
   computeDaeodonHealOverTimeData : function (healingRateInputID, dinoAmountInputID, timeDurationInputID) {
     'use strict';
