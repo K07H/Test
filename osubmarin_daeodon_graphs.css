@@ -1,0 +1,34 @@
+#daeodonHealRateGraph, #daeodonHealOverTimeGraph {
+    position: relative;
+    width: 700px;
+    height: 300px;
+}
+
+#daeodonHealRateGraphCanvas, #daeodonHealOverTimeGraphCanvas {
+  background-color: rgb(28, 30, 33);
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgb(61, 85, 94);
+  border-radius: 8px;
+}
+
+#daeodonHealRateTipCanvas, #daeodonHealOverTimeTipCanvas {
+    background-color: rgb(42, 69, 79);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(61, 85, 94);
+    position: absolute;
+    left: -200px;
+    top: 100px;
+    border-radius: 6px;
+}
+
+.daeodonLineChartInputLabelStyle {
+  font-size: 0.9em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+.daeodonLineChartInputStyle {
+  font-size: 0.9em;
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
