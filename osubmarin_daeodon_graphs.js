@@ -142,7 +142,6 @@ var lineGraphNamespace = {
 
     // Draw the Y title.
     config.ctx.save();
-    //config.ctx.translate(newx, newy);
     config.ctx.rotate(-Math.PI / 2);
     config.ctx.font = config.graphStyle.axisTitleFont;
     config.ctx.fillStyle = config.graphStyle.axisTitleColor;
@@ -169,7 +168,7 @@ var lineGraphNamespace = {
         max = config.data[i].Y;
       }
     }
-    max += config.graphDimensions.yMarginTop; //30 - max % 10;
+    max += config.graphDimensions.yMarginTop;
     return max;
   },
 
@@ -328,7 +327,6 @@ var daeodonGraphsNamespace = {
       config.xModulo = Math.round(parseInt(timeDurationInputElement.val()) / 6);
       config.yModulo = Math.round(chartData.ymax / 6);
       config.data = chartData.data;
-      console.log('xModulo=[' + config.xModulo + '] yModulo=[' + config.yModulo + ']');
     }
   },
 
@@ -421,7 +419,6 @@ var daeodonGraphsNamespace = {
         dataset.push({X:i,Y:totalFoodConsumption});
         if (i === maxTime) {
           maxValY = totalFoodConsumption;
-          console.log('ymax=[' + maxValY + ']');
         }
       }
     }
@@ -517,7 +514,6 @@ var daeodonGraphsNamespace = {
         // Create new chart configuration.
         var xModulo = Math.round(parseInt(timeDurationInputElement.val()) / 6);
         var yModulo = Math.round(chartData.ymax / 6);
-        console.log('xModulo=[' + xModulo + '] yModulo=[' + yModulo + ']');
         var chartConfig = new lineGraphNamespace.graphConfig(
           graphCanvasID, /* The ID of the graph canvas. */
           tipCanvasID, /* The ID of the tooltip canvas. */
