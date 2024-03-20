@@ -1,7 +1,7 @@
 #daeodonHealRateGraph, #veggieCakeHealRateGraph {
-    position: relative;
-    width: 706px; /* Graph width (700px) + borders (2 * 3px) */
-    height: 306px; /* Graph height (300px) + borders (2 * 3px) */
+  position: relative;
+  width: 706px; /* Graph width (700px) + borders (2 * 3px) */
+  height: 306px; /* Graph height (300px) + borders (2 * 3px) */
 }
 
 #daeodonHealOverTimeGraph, #veggieCakeHealOverTimeGraph {
@@ -19,14 +19,14 @@
 }
 
 #daeodonHealRateTipCanvas, #daeodonHealOverTimeTipCanvas, #veggieCakeHealRateTipCanvas, #veggieCakeHealOverTimeTipCanvas {
-    background-color: rgb(42, 69, 79);
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgb(61, 85, 94);
-    position: absolute;
-    left: -200px;
-    top: 100px;
-    border-radius: 6px;
+  background-color: rgb(42, 69, 79);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(61, 85, 94);
+  position: absolute;
+  left: -200px;
+  top: 100px;
+  border-radius: 6px;
 }
 
 .daeodonLineChartInputLabelStyle, .veggieCakeLineChartInputLabelStyle {
