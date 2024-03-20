@@ -38,6 +38,7 @@ var lineGraphNamespace = {
                           dimensions, styles) {
     this.graphJquery = $('#' + graphCanvasID);
     this.graph = document.getElementById(graphCanvasID);
+    this.tipJquery = $('#' + tipCanvasID);
     this.tipCanvas = document.getElementById(tipCanvasID);
     this.ctx = this.graph.getContext('2d');
     this.tipCtx = this.tipCanvas.getContext('2d');
@@ -67,6 +68,7 @@ var lineGraphNamespace = {
   refreshGraphConfig : function(config, graphCanvasID, tipCanvasID) {
     config.graphJquery = $('#' + graphCanvasID);
     config.graph = document.getElementById(graphCanvasID);
+    config.tipJquery = $('#' + tipCanvasID);
     config.tipCanvas = document.getElementById(tipCanvasID);
     config.ctx = config.graph.getContext('2d');
     config.tipCtx = config.tipCanvas.getContext('2d');
@@ -74,6 +76,21 @@ var lineGraphNamespace = {
     config.canvasOffset = config.graphJquery.offset();
     config.offsetX = config.canvasOffset.left;
     config.offsetY = config.canvasOffset.top;
+  },
+
+  doHideTooltip : function (e, config) {
+    var mouseX = parseInt(e.clientX - config.offsetX);
+    var mouseY = parseInt(e.clientY - config.offsetY);
+
+    var minX = config.graphJquery.offset().left - config.offsetX;
+    var maxX = minX + config.graphJquery.width() - config.offsetX;
+    var minY = config.graphJquery.offset().top - config.offsetY;
+    var maxY = minY + config.graphJquery.height() - config.offsetY;
+
+    if (mouseX <= minX || mouseX >= maxX || mouseY <= minY || mouseY >= maxY) {
+      config.tipCanvas.style.display = 'none';
+      config.tipCanvas.style.left = '-4000px';
+    }
   },
 
   // Function drawing the line graph.
@@ -98,7 +115,12 @@ var lineGraphNamespace = {
 
     // Hide tooltip when mouse leaves graph.
     config.graphJquery.mouseout(function (e) {
-      config.tipCanvas.style.opacity = '0';
+      lineGraphNamespace.doHideTooltip(e, config);
+    });
+    
+    // Hide tooltip when mouse leaves tooltip.
+    config.tipJquery.mouseout(function (e) {
+      lineGraphNamespace.doHideTooltip(e, config);
     });
 
     // Set axises style.
@@ -236,7 +258,7 @@ var daeodonGraphsNamespace = {
       if (dx > -3 && dx < 3) {
         config.tipCanvas.style.left = (config.dots[i].x - 40) + "px";
         config.tipCanvas.style.top = (config.dots[i].y - 40) + "px";
-        config.tipCanvas.style.opacity = '1';
+        config.tipCanvas.style.display = 'block';
         config.tipCtx.clearRect(0, 0, config.tipCanvas.width, config.tipCanvas.height);
         config.tipCtx.font = config.graphStyle.tooltipFont;
         config.tipCtx.fillStyle = config.graphStyle.tooltipFontColor;
@@ -246,7 +268,8 @@ var daeodonGraphsNamespace = {
       }
     }
     if (!hit) {
-      config.tipCanvas.style.opacity = '0';
+      config.tipCanvas.style.display = 'none';
+      config.tipCanvas.style.left = '-4000px';
     }
   },
 
@@ -440,7 +463,7 @@ var daeodonGraphsNamespace = {
         var healedPerDino = (totalHealed / nbDino);
         config.tipCanvas.style.left = (config.dots[i].x - 80) + "px";
         config.tipCanvas.style.top = (config.dots[i].y - 50) + "px";
-        config.tipCanvas.style.opacity = '1';
+        config.tipCanvas.style.display = 'block';
         config.tipCtx.clearRect(0, 0, config.tipCanvas.width, config.tipCanvas.height);
         config.tipCtx.font = config.graphStyle.tooltipFont;
         config.tipCtx.fillStyle = config.graphStyle.tooltipFontColor;
@@ -452,7 +475,8 @@ var daeodonGraphsNamespace = {
       }
     }
     if (!hit) {
-      config.tipCanvas.style.opacity = '0';
+      config.tipCanvas.style.display = 'none';
+      config.tipCanvas.style.left = '-4000px';
     }
   },
 
